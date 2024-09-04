@@ -1,0 +1,18 @@
+<h2>Welcome, {{user.username}}!</h2>
+
+<h3>Your Posts</h3>
+
+{{#each posts}}
+  <div class="post">
+    <h3>{{this.title}}</h3>
+    <p>Posted on {{this.createdAt}}</p>
+    <a href="/post/edit/{{this.id}}">Edit Post</a>
+    <form action="/post/{{this.id}}?_method=DELETE" method="POST">
+      <button type="submit">Delete Post</button>
+    </form>
+  </div>
+{{else}}
+  <p>You haven't created any posts yet.</p>
+{{/each}}
+
+<a href="/post/new">Create New Post</a>
