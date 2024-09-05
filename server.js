@@ -21,7 +21,9 @@ const sess = {
 
 app.use(session(sess));
 
-const hbs = exphbs.create({});
+const hbs = exphbs.create({
+    partialsDir: path.join(__dirname, 'views/partials')
+});
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
