@@ -18,31 +18,52 @@ router.get('/', async (req, res) => {
   }
 });
 
-
-router.get('/login', (req, res) => {
-
+router.get('/signup', (req, res) => {
   if (req.session.logged_in) {
     res.redirect('/dashboard');
     return;
   }
-
-  res.render('login'); 
+  res.render('signup');
 });
 
+router.get('/post/new', (req, res) => {
+  if (!req.session.logged_in) {
+    res.redirect('/login');
+    return;
+  }
+  res.render('newPost');
+});
 
-router.get('/dashboard', async (req, res) => {
+router.get('/post/edit/:id', async (req, res) => {
   try {
+    const postData = await Post.findByPk(req.params.id);
 
-    const postData = await Post.findAll({
-      where: {
-        user_id: req.session.user_id
-      }
+    if (!postData) {
+      res.status(404).json({ message: 'No post found with this id' });
+      return;
+    }
+
+    const post = postData.get({ plain: true });
+
+    res.render('editPost', {
+      post,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/post/:id', async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [{ model: User, attributes: ['username'] }, { model: Comment }],
     });
 
-    const posts = postData.map(post => post.get({ plain: true }));
+    const post = postData.get({ plain: true });
 
-    res.render('dashboard', {
-      posts,
+    res.render('singlePost', {
+      post,
       logged_in: req.session.logged_in
     });
   } catch (err) {
