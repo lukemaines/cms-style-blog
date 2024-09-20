@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
       include: [{ model: User, attributes: ['username'] }]
     });
 
-    const posts = postData.map(post => post.get({ plain: true }));
+    const posts = postData.map((post) => post.get({ plain: true }));
 
     res.render('home', {
       posts,
