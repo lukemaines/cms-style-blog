@@ -10,7 +10,9 @@ router.post('/signup', async (req, res) => {
       email: req.body.email,
       password: hashedPassword,
     });
-    
+
+    console.log(newUser)
+
     req.session.save(() => {
       req.session.user_id = newUser.id;
       req.session.logged_in = true;
@@ -18,6 +20,7 @@ router.post('/signup', async (req, res) => {
       res.status(200).json(newUser);
     });
   } catch (err) {
+    console.error(err);
     res.status(400).json(err);
   }
 });
@@ -37,7 +40,7 @@ router.post('/login', async (req,res) => {
       res.status(400).json({ message: 'Incorrect password, please try again'});
       return;
     }
-    
+
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
