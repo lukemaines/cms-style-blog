@@ -44,7 +44,10 @@ router.get('/dashboard', async (req, res) => {
     const userData = await User.findByPk(req.session.user_id, {
       include: [{ model: Post }],
     });
-
+    if (!userData) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
     const user = userData.get({ plain: true });
 
     res.render('dashboard', {
@@ -87,9 +90,12 @@ router.get('/post/edit/:id', async (req, res) => {
 router.get('/post/:id', async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
-      include: [{ model: User, attributes: ['username'] }, { model: Comment }],
+      include: [{ model: User, attributes: ['username'] }, { model: Comment, include: [{ model: User, attributes: ['username'] }] }],
     });
-
+    if (!postData) {
+      res.status(404).json({ message: 'No post found' });
+      return;
+    }
     const post = postData.get({ plain: true });
 
     res.render('singlePost', {
