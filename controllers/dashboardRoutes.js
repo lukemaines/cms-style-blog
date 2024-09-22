@@ -8,6 +8,13 @@ router.get("/", async (req, res) => {
 
   try {
     const userId = req.session.user_id;
+    const userData = await User.findByPk(userId, {
+        attributes: ['username'],
+    });
+    if (!userData) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+    }
     const postData = await Post.findAll({
       where: {
         user_id: userId,
@@ -24,7 +31,7 @@ router.get("/", async (req, res) => {
     res.render("dashboard", {
       posts,
       logged_in: true,
-      username: req.session.username,
+      username: userData.username,
     });
   } catch (err) {
     res.status(500).json(err);
