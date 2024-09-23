@@ -7,7 +7,7 @@ router.post('/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = await User.create({
       username: req.body.username,
-      email: req.body.email,
+      email: req.body.email.toLowerCase(),
       password: hashedPassword,
     });
 
@@ -27,7 +27,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req,res) => {
   try {
-    const userData = await User.findOne({ where: { email: req.body.email }});
+    const userData = await User.findOne({ where: { email: req.body.email.toLowerCase() }});
 
     if (!userData) {
       res.status(400).json({ message: 'Incorrect email, please try again' });
