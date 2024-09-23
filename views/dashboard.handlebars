@@ -7,7 +7,7 @@
     <h3>{{this.title}}</h3>
     <p>Posted on {{this.createdAt}}</p>
     <a href="/post/edit/{{this.id}}">Edit Post</a>
-    <form action="/post/{{this.id}}?_method=DELETE" method="POST">
+    <form class="delete-post-form" data-id="{{this.id}}">
       <button type="submit">Delete Post</button>
     </form>
   </div>

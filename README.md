@@ -21,3 +21,5 @@ Visit the deployed site, sign up, log in, and start creating posts and comments.
 ## Render Site
 https://cms-style-blog-02b3.onrender.com/
 
+## Screenshot
+![screenshot] (./screenshot.png "screenshot")
