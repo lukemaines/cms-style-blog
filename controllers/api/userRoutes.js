@@ -5,13 +5,14 @@ const bcrypt = require('bcrypt');
 router.post('/signup', async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log('Hashed password on signup:', hashedPassword);
     const newUser = await User.create({
       username: req.body.username,
       email: req.body.email.toLowerCase(),
       password: hashedPassword,
     });
 
-    console.log(newUser)
+    console.log('New user created:', newUser); 
 
     req.session.save(() => {
       req.session.user_id = newUser.id;
@@ -33,7 +34,8 @@ router.post('/login', async (req,res) => {
       res.status(400).json({ message: 'Incorrect email, please try again' });
       return;
     }
-
+    console.log('Password provided by user:', req.body.password);
+    console.log('Stored hashed password:', userData.password);
     const validPassword = await bcrypt.compare(req.body.password, userData.password);
 
     if (!validPassword) {
