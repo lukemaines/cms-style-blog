@@ -30,6 +30,9 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
+    if (!req.session.user_id) {
+      return res.status(401).json({ message: 'Please log in to post' });
+    }
     const newPost = await Post.create({
       title: req.body.title,
       content: req.body.content,
@@ -37,7 +40,8 @@ router.post('/', async (req, res) => {
     });
     res.status(200).json(newPost);
   } catch (err) {
-    res.status(400).json(err);
+    console.log(err);
+    res.status(500).json(err);
   }
 });
 
