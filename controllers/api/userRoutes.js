@@ -4,12 +4,10 @@ const bcrypt = require('bcrypt');
 
 router.post('/signup', async (req, res) => {
   try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log('Hashed password on signup:', hashedPassword);
     const newUser = await User.create({
       username: req.body.username,
       email: req.body.email.toLowerCase(),
-      password: hashedPassword,
+      password: req.body.password,
     });
 
     console.log('New user created:', newUser); 
