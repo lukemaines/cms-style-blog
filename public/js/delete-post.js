@@ -1,7 +1,8 @@
 const deletePostHandler = async (event) => {
-    event.preventDefault();
+  if (event.target.matches('.delete-post-btn'))  {
+  event.preventDefault();
     console.log('button click')
-    if (event.target.matches('.delete-post button')) {
+  
       const postId = event.target.closest('.delete-post').getAttribute('data-id');
   
       const response = await fetch(`/api/posts/${postId}`, {
