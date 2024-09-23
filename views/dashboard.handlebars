@@ -7,9 +7,8 @@
     <h3>{{this.title}}</h3>
     <p>Posted on {{this.createdAt}}</p>
     <a href="/post/edit/{{this.id}}">Edit Post</a>
-    <form class="delete-post-form" data-id="{{this.id}}">
-      <button type="submit">Delete Post</button>
-    </form>
+    <div class="delete-post" data-id="{{this.id}}">
+      <button type="button">Delete Post</button>
   </div>
 {{else}}
   <p>You haven't created any posts yet.</p>
